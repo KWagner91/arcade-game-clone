@@ -5,6 +5,8 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
+    this.x = x;
+	this.y = y;
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -58,6 +60,9 @@ player.handleInput = function(direction){
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+var allEnemies = [];
+
+
 // Place the player object in a variable called player
 
 var player = new Player(200,400);
