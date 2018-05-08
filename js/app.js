@@ -22,7 +22,6 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
 		this.x = -10;
 	}
-	
 	    if (player.x < this.x + 60 && player.x + 30 > this.x && player.y < this.y + 25 && 30 + player.y > this.y) {
         player.reset();
 }
@@ -51,6 +50,9 @@ Player.prototype.update = function() {
 
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    
+    var level = 1;
+    document.querySelector(".level").innerHTML = "Your Level: " + level;
 };
 
 
@@ -97,6 +99,8 @@ player.handleInput = function(direction){
      this.y += 82.5;
      }
      if (this.y < 0) {
+		 var updateScore = document.querySelector(".score");
+		 updateScore.innerHTML = "Score = 1";
 		 setTimeout(function(){ 
 			 player.reset(); 
 			 }, 1200);
