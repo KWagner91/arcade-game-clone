@@ -19,14 +19,21 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += (this.speed * dt);
-    if (this.x > 500) 
+    if (this.x > 500) {
 		this.x = -10;
+	}
+	
+	    if (player.x < this.x + 60 && player.x + 30 > this.x && player.y < this.y + 25 && 30 + player.y > this.y) {
+        player.reset();
+}
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+
 
 // Now write your own player class
 var Player = function(x, y, speed){
@@ -71,7 +78,7 @@ for (var i = 0; allEnemies.length < 4; i++) {
 }
 
 
-var player = new Player(200,400,50);
+var player = new Player(200, 400, 50);
 
 
 
@@ -93,7 +100,6 @@ player.handleInput = function(direction){
 		 setTimeout(function(){ 
 			 player.reset(); 
 			 }, 1200);
-		 
 	 }
     };
 
