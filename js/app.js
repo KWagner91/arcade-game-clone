@@ -20,7 +20,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x += (this.speed * dt);
     if (this.x > 500) 
-		this.x = -100;
+		this.x = -10;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -50,6 +50,13 @@ Player.prototype.render = function(){
 // This class requires an update(), render() and
 // a handleInput() method.
 
+Player.prototype.reset = function() {
+  this.x = 200;
+  this.y = 400;
+  this.speed = 50;
+};
+
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -57,9 +64,9 @@ Player.prototype.render = function(){
 var allEnemies = [];
 
 for (var i = 0; allEnemies.length < 4; i++) {
-	var enemyOne = new Enemy(Math.floor(Math.random() * 100), 50, Math.random() * 180);
-	var enemyTwo = new Enemy(Math.floor(Math.random() * 100), 230, Math.random() * 180);
-	var enemyThree = new Enemy(Math.floor(Math.random() * 100), 140, Math.random() * 180);
+	var enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 180);
+	var enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 180);
+	var enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 180);
 	allEnemies.push(enemyOne, enemyTwo, enemyThree);
 }
 
@@ -82,6 +89,12 @@ player.handleInput = function(direction){
      if(direction === 'down' && this.y < 400){
      this.y += 82.5;
      }
+     if (this.y < 0) {
+		 setTimeout(function(){ 
+			 player.reset(); 
+			 }, 1200);
+		 
+	 }
     };
 
 
