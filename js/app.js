@@ -56,17 +56,15 @@ Player.prototype.render = function(){
 // Place the player object in a variable called player
 var allEnemies = [];
 
-var enemyOne = new Enemy(0, 50, Math.random() * 200 / 2);
-var enemyTwo = new Enemy(0, 230, Math.random() * 180 / 2);
-var enemyThree = new Enemy(0, 140, Math.random() * 150.5 / 2);
-
-allEnemies.push(enemyOne);
-allEnemies.push(enemyTwo);
-allEnemies.push(enemyThree);
+for (var i = 0; allEnemies.length < 4; i++) {
+	var enemyOne = new Enemy(Math.floor(Math.random() * 100), 50, Math.random() * 180);
+	var enemyTwo = new Enemy(Math.floor(Math.random() * 100), 230, Math.random() * 180);
+	var enemyThree = new Enemy(Math.floor(Math.random() * 100), 140, Math.random() * 180);
+	allEnemies.push(enemyOne, enemyTwo, enemyThree);
+}
 
 
 var player = new Player(200,400,50);
-
 
 
 
