@@ -1,6 +1,10 @@
 // Variables
     var level = 1;
-
+    var allEnemies = [];
+    var counter = 0;
+    var sprite = 0;
+    var character = ['char-boy', 'char-cat-girl', 'char-horn-girl', 'char-pink-girl', 'char-princess-girl'];
+	
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -26,7 +30,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
 		this.x = -10;
 	}
-	    if (player.x < this.x + 60 && player.x + 30 > this.x && player.y < this.y + 25 && 30 + player.y > this.y) {
+	if (player.x < this.x + 60 && player.x + 30 > this.x && player.y < this.y + 25 && 30 + player.y > this.y) {
         player.reset();
 }
 };
@@ -43,18 +47,18 @@ var Player = function(x, y, speed){
     this.x = x;
     this.y = y;
     this.speed = speed;
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/' + character[sprite] +'.png';
 };
 
 
 Player.prototype.update = function() {
-    // function not needed right now
+    this.sprite = 'images/' + character[sprite] +'.png';
 };
 
 
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    document.querySelector(".level").innerHTML = "Your Level: " + level;
+    document.querySelector(".level").innerHTML = "Your current Level: " + level;
 };
 
 
@@ -62,11 +66,16 @@ Player.prototype.render = function(){
 // a handleInput() method.
 
 Player.prototype.success = function() {
-  this.x = 200;
-  this.y = 400;
-  this.speed = 50;
-  bugMove(level);
-  counter = 0;
+	if (level > 5) {
+		alert("You win the Game!");
+}
+	else {
+	  this.x = 200;
+	  this.y = 400;
+	  this.speed = 50;
+	  bugMove(level);
+	  counter = 0;
+	}
 };
 
 
@@ -84,7 +93,6 @@ Player.prototype.reset = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [];
 
 
 var bugMove = function(number) {
@@ -102,12 +110,14 @@ var bugMove = function(number) {
 var player = new Player(200, 400, 50);
 bugMove(level);
 bugMove(level);
-var counter = 0;
+
 
 
 player.handleInput = function(direction){
-
-          if(direction === 'left' && this.x !== 0){
+	 if (direction === 'char-change') {
+		(sprite < 4) ? sprite += 1 : sprite = 0;
+	 }
+     if(direction === 'left' && this.x !== 0){
      this.x -= 100;
      }
      if (direction === 'up' && this.y > 0){
@@ -122,13 +132,12 @@ player.handleInput = function(direction){
      if (this.y < 70 && counter < 1) {
 		level += 1;
 		counter += 1;
-		var updateScore = document.querySelector(".score");
-		updateScore.innerHTML = "Score = 1";
 		setTimeout(function(){ 
 			 player.success(); 
 			 }, 1200);
 	 }
     };
+
 
 
 // This listens for key presses and sends the keys to your
@@ -138,7 +147,9 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        67: 'char-change'
+
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
