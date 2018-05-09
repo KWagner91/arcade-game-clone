@@ -1,3 +1,7 @@
+// Variables
+    var level = 1;
+
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -50,8 +54,6 @@ Player.prototype.update = function() {
 
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    
-    var level = 1;
     document.querySelector(".level").innerHTML = "Your Level: " + level;
 };
 
@@ -59,12 +61,23 @@ Player.prototype.render = function(){
 // This class requires an update(), render() and
 // a handleInput() method.
 
-Player.prototype.reset = function() {
+Player.prototype.success = function() {
   this.x = 200;
   this.y = 400;
   this.speed = 50;
+  bugMove(level);
 };
 
+
+Player.prototype.reset = function() {
+	this.x = 200;
+	this.y = 400;
+	this.speed = 50;
+	level = 1;
+	allEnemies = [];
+	bugMove(level);
+	bugMove(level);
+};
 
 
 // Now instantiate your objects.
@@ -72,15 +85,22 @@ Player.prototype.reset = function() {
 // Place the player object in a variable called player
 var allEnemies = [];
 
-for (var i = 0; allEnemies.length < 4; i++) {
-	var enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 180);
-	var enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 180);
-	var enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 180);
-	allEnemies.push(enemyOne, enemyTwo, enemyThree);
-}
 
+var bugMove = function(number) {
+
+	var enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 100*number);
+	var enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 100*number);
+	var enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 100*number);
+	
+	var array = [enemyOne, enemyTwo, enemyThree];
+
+	var randomBug = array[Math.floor(Math.random()*array.length)];
+	allEnemies.push(randomBug);
+};
 
 var player = new Player(200, 400, 50);
+bugMove(level);
+bugMove(level);
 
 
 
@@ -98,11 +118,12 @@ player.handleInput = function(direction){
      if(direction === 'down' && this.y < 400){
      this.y += 82.5;
      }
-     if (this.y < 0) {
+     if (this.y < 10) {
+		 level += 1;
 		 var updateScore = document.querySelector(".score");
 		 updateScore.innerHTML = "Score = 1";
 		 setTimeout(function(){ 
-			 player.reset(); 
+			 player.success(); 
 			 }, 1200);
 	 }
     };
