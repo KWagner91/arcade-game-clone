@@ -66,6 +66,7 @@ Player.prototype.success = function() {
   this.y = 400;
   this.speed = 50;
   bugMove(level);
+  counter = 0;
 };
 
 
@@ -101,7 +102,7 @@ var bugMove = function(number) {
 var player = new Player(200, 400, 50);
 bugMove(level);
 bugMove(level);
-
+var counter = 0;
 
 
 player.handleInput = function(direction){
@@ -109,20 +110,21 @@ player.handleInput = function(direction){
           if(direction === 'left' && this.x !== 0){
      this.x -= 100;
      }
-     if(direction === 'up' && this.y > 0){
+     if (direction === 'up' && this.y > 0){
      this.y -= 82.5;
      }
-     if(direction === 'right' && this.x < 400){
+     if (direction === 'right' && this.x < 400){
      this.x += 100;
      }
-     if(direction === 'down' && this.y < 400){
+     if (direction === 'down' && this.y < 400){
      this.y += 82.5;
      }
-     if (this.y < 10) {
-		 level += 1;
-		 var updateScore = document.querySelector(".score");
-		 updateScore.innerHTML = "Score = 1";
-		 setTimeout(function(){ 
+     if (this.y < 70 && counter < 1) {
+		level += 1;
+		counter += 1;
+		var updateScore = document.querySelector(".score");
+		updateScore.innerHTML = "Score = 1";
+		setTimeout(function(){ 
 			 player.success(); 
 			 }, 1200);
 	 }
