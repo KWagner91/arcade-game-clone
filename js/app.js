@@ -1,18 +1,28 @@
-// Variables
-var level = 1;
-var allEnemies = [];
-var counter = 0;
-var sprite = 0;
-var character = ['char-boy', 'char-cat-girl', 'char-horn-girl', 'char-pink-girl', 'char-princess-girl'];
+/**
+* @description Variables defined for following functions
+* @param {number} level
+* @param {array} allEnemies
+* @param {number} counter
+* @param {number} sprite
+* @param {array} character
+*/
+let level = 1;
+let allEnemies = [];
+let counter = 0;
+let sprite = 0;
+const character = ['char-boy', 'char-cat-girl', 'char-horn-girl', 'char-pink-girl', 'char-princess-girl'];
+	
 	
 
-// Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+/**
+* @description Enemy constructor function
+* @constructor
+* @param {number} x 
+* @param {number} y 
+* @param {number} speed - Movement speed
+* @param {string} sprite - img of Enemy
+*/
+const Enemy = function(x, y, speed) {
 	this.x = x;
 	this.y = y;
 	this.speed = speed;
@@ -20,8 +30,13 @@ var Enemy = function(x, y, speed) {
 };
 
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+
+
+/**
+* @description Enemy constructor Update function for position and movement
+* @constructor
+* @param {number} dt - time delta between ticks to ensure game runs at the same speed for all computers
+*/
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -35,15 +50,27 @@ Enemy.prototype.update = function(dt) {
 }
 };
 
-// Draw the enemy on the screen, required method for game
+
+
+/**
+* @description Enemies are drawn to the screen
+*/
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 
 
-// Now write your own player class
-var Player = function(x, y, speed){
+/**
+* @description Player constructor function
+* @constructor
+* @param {number} x 
+* @param {number} y 
+* @param {number} speed - Movement speed
+* @param {number} sprite
+* @param {string} sprite - img of Player, depending on internal count sprite
+*/
+const Player = function(x, y, speed){
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -51,20 +78,34 @@ var Player = function(x, y, speed){
 };
 
 
+
+/**
+* @description Player constructor Update function for updating character img upon key click (let sprite)
+* @constructor
+* @param {number} sprite
+*/
 Player.prototype.update = function() {
     this.sprite = 'images/' + character[sprite] +'.png';
 };
 
 
+
+/**
+* @description Player is drawn to the screen
+* @param {number} level - Current level is drawn to screen
+*/
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     document.querySelector(".level").innerHTML = "Your current Level: " + level;
 };
 
 
-// This class requires an update(), render() and
-// a handleInput() method.
-
+/**
+* @description Player constructor success function if Player reaches other end of screen
+* @constructor
+* @param {number} level
+* @param {number} counter - reset to allow reaching the end of screen again
+*/
 Player.prototype.success = function() {
 	if (level > 5) {
 		alert("You win the Game!");
@@ -79,6 +120,14 @@ Player.prototype.success = function() {
 };
 
 
+
+/**
+* @description Player constructor reset function if Player is hit by Enemy
+* @constructor
+* @param {number} level - Level is reset to 1
+* @param {array} allEnemies - resets number of Enemies on screen
+* @param {function} bugMove(level) - 2 Enemies appear on screen
+*/
 Player.prototype.reset = function() {
 	this.x = 200;
 	this.y = 400;
@@ -90,27 +139,43 @@ Player.prototype.reset = function() {
 };
 
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
+/**
+* @description Function to display 1 random bug on screen, random movement speed depends on level
+* @param {Object} enemyOne, enemyTwo, enemyThree
+* @param {array} array
+* @param {Object} randomBug - 1 random bug out of 3 in array
+* @param {array} allEnemies - 1 random bug appears on screen
+*/
+const bugMove = function(number) {
 
-var bugMove = function(number) {
-
-	var enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 100*number);
-	var enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 100*number);
-	var enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 100*number);
-	var array = [enemyOne, enemyTwo, enemyThree]
-	var randomBug = array[Math.floor(Math.random()*array.length)];
+	let enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 100 * number);
+	let enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 100 * number);
+	let enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 100 * number);
+	const array = [enemyOne, enemyTwo, enemyThree]
+	const randomBug = array[Math.floor(Math.random()*array.length)];
 	allEnemies.push(randomBug);
 };
 
-var player = new Player(200, 400, 50);
+
+
+/**
+* @description new Object player is initiated to start the game, Function bugMove(level) initiated, 2 Enemies appear on screen
+* @param {Object} player
+* @param {function} bugMove(level)
+* @param {number} level - current level of player
+*/
+const player = new Player(200, 400, 50);
 bugMove(level);
 bugMove(level);
 
 
 
+/**
+* @description Function handle user keyboard input
+* @param {number} sprite 
+* @param {number} counter - internal counter to avoid bug of multiple level ups if user presses any key
+*/
 player.handleInput = function(direction){
 	 if (direction === 'char-change') {
 		(sprite < 4) ? sprite += 1 : sprite = 0;
@@ -127,7 +192,7 @@ player.handleInput = function(direction){
      if (direction === 'down' && this.y < 400){
      this.y += 82.5;
      }
-     if (this.y < 70 && counter < 1) {
+     if (this.y < 50 && counter < 1) {
 		level += 1;
 		counter += 1;
 		setTimeout(function(){ 
@@ -138,17 +203,21 @@ player.handleInput = function(direction){
 
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+/**
+* @description Event Listener Function for arrow keys and c key
+* @param {Unicode} 37 - Arrow left
+* @param {Unicode} 38 - Arrow up
+* @param {Unicode} 39 - Arrow right
+* @param {Unicode} 40 - Arrow down 
+* @param {Unicode} 67 - C
+*/
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    const allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
         40: 'down',
         67: 'char-change'
-
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
