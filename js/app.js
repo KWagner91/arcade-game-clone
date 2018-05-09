@@ -1,9 +1,9 @@
 // Variables
-    var level = 1;
-    var allEnemies = [];
-    var counter = 0;
-    var sprite = 0;
-    var character = ['char-boy', 'char-cat-girl', 'char-horn-girl', 'char-pink-girl', 'char-princess-girl'];
+var level = 1;
+var allEnemies = [];
+var counter = 0;
+var sprite = 0;
+var character = ['char-boy', 'char-cat-girl', 'char-horn-girl', 'char-pink-girl', 'char-princess-girl'];
 	
 
 // Enemies our player must avoid
@@ -100,9 +100,7 @@ var bugMove = function(number) {
 	var enemyOne = new Enemy(Math.floor(Math.random() * 12), 50, Math.random() * 100*number);
 	var enemyTwo = new Enemy(Math.floor(Math.random() * 12), 230, Math.random() * 100*number);
 	var enemyThree = new Enemy(Math.floor(Math.random() * 12), 140, Math.random() * 100*number);
-	
-	var array = [enemyOne, enemyTwo, enemyThree];
-
+	var array = [enemyOne, enemyTwo, enemyThree]
 	var randomBug = array[Math.floor(Math.random()*array.length)];
 	allEnemies.push(randomBug);
 };
