@@ -211,6 +211,7 @@ player.handleInput = function(direction){
 * @param {Unicode} 67 - C
 */
 document.addEventListener('keyup', function(e) {
+    
     const allowedKeys = {
         37: 'left',
         38: 'up',
@@ -218,5 +219,23 @@ document.addEventListener('keyup', function(e) {
         40: 'down',
         67: 'char-change'
     };
+
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
+
+/**
+* @description Disable arrow key scrolling in browser  
+* 			   Code was taken from "https://stackoverflow.com/questions/8916620/disable-arrow-key-scrolling-in-users-browser?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa"
+* @param {Unicode} 37 - Arrow left
+* @param {Unicode} 38 - Arrow up
+* @param {Unicode} 39 - Arrow right
+* @param {Unicode} 40 - Arrow down 
+*/
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
