@@ -173,6 +173,7 @@ bugMove(level);
 
 /**
 * @description Function handle user keyboard input
+* @bug "This" problem in setTimeout() - arrow function to avoid global value of "this", based on https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout#The_this_problem
 * @param {number} sprite 
 * @param {number} counter - internal counter to avoid bug of multiple level ups if user presses any key
 */
@@ -195,9 +196,7 @@ player.handleInput = function(direction){
      if (this.y < 50 && counter < 1) {
 		level += 1;
 		counter += 1;
-		setTimeout(function(){ 
-			 player.success(); 
-			 }, 1200);
+		setTimeout(() => {this.success()}, 1200);
 	 }
     };
 
